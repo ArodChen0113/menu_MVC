@@ -13,15 +13,28 @@
             <td align="center" bgcolor="#FFABAB">分類名稱</td>
             <td align="center" bgcolor="#FFE5B5">刪除</td>
         </tr>
-            <?php while ($row_restKind=mysqli_fetch_assoc($Rec_restKind)){
-                $num=$row_restKind['num'];
-                ?>
+
+        <?php
+        $num=count($rest_kind_echo);
+        for($k=0;$k<=$num-1;$k++) {
+?>
         <tr>
-            <input type="hidden" name="num1[]" value="<?php echo $row_restKind['num'];?>">
-            <td><input type="text" name="rest_kind1[]" value="<?php echo $row_restKind['rest_kind'];?>"></td>
-            <td align="center"><a href="controller/restaurant_kind_delete.php?action1=delete&num2=<?php echo $num;?>"><img src="icon/x.jpeg" width="30" height="30"></a></td>
+            <?php
+            foreach ($rest_kind_echo[$k] as $i){ ?>
+            <td><input type="text" name="rest_kind1[]" value="<?php echo $i;?>"></td>
+            <?php
+            }
+            foreach ($rest_num_echo[$k] as $i){ ?>
+            <input type="hidden" name="num1[]" value="<?php echo $i;?>">
+            <td align="center"><a href="controller/restaurant_kind_delete.php?action1=delete&num2=<?php echo $i ?>"><img src="icon/x.jpeg" width="30" height="30"></a></td>
+        <?php
+            }
+        ?>
         </tr>
-        <?php } ?>
+            <?php
+        }?>
+
+
     </table>
 
     <input type="hidden" name="action" value="update">

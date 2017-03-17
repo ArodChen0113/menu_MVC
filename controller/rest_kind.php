@@ -9,13 +9,24 @@ class rest_system_select
     }
     public function restaurant_kind_all()
     {
-        $db_host = "127.0.0.1";  //主機位置
-        $db_table = "test";      //資料庫名稱
-        $db_username = "root";   //資料庫帳號
-        $db_password = "root";   //資料庫密碼
-        $db = mysqli_connect("$db_host", "$db_username", "$db_password", "$db_table");//設定資料連線
-        $dbset = mysqli_set_charset($db,"utf8");
-        $Rec_restKind=mysqli_query($db, "SELECT * FROM `restaurant_kind`");
-        $this->_view->render('restaurant_kind' , $Rec_restKind);
+        require_once("DB_config.php");
+        require_once("DB_Class.php");
+
+        $db = new DB();
+        $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
+        $db->query("SELECT `rest_kind`,`num` FROM `restaurant_kind`");
+        $k=0;
+        while($result = $db->fetch_array())
+        {
+            $rest_kind[$k]=$result['rest_kind'];
+            $rest_num[$k]=$result['num'];
+            $k++;
+        }
+        $num=count($rest_kind);
+        for($i=0;$i<=$num-1;$i++){
+        $rest_kind_echo[$i]=array($rest_kind[$i]);
+        $rest_num_echo[$i]=array($rest_num[$i]);
+        }
+        $this->_view->render('restaurant_kind' , $rest_kind_echo,$rest_num_echo);
     }
 }

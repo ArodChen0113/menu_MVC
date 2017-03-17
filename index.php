@@ -1,9 +1,9 @@
 <?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
 include ("class/view.php");
-include ("controller/menu_inster_controller.php");
+include ("controller/menu_controller.php");
 
-$w = new rest_system_select();
-$w->restaurant_kind();
+$w = new menu_system();
+$w->rest_menu_insert_index();
 ?>

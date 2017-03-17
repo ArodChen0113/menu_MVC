@@ -4,7 +4,7 @@
     <title>餐廳系統</title>
 </head>
 <body>
-<form name="rest_open" action="controller/restaurant_update_add.php" method="post" enctype="multipart/form-data">
+<form name="rest_open" action="controller/restaurant_controller.php" method="post" enctype="multipart/form-data">
     <table border="1">
         <tr>
             <td colspan="3" align="center" bgcolor="#FFABAB">餐廳管理</td>
@@ -36,7 +36,7 @@
     如欲瀏覽<font color="#FF0000">菜單</font>資料，按下瀏覽按鈕 >>>
     <input type="button" value="菜單瀏覽" onclick="self.location.href='menu_select_index.php?restname=<?php echo $restname; ?>'"/>
     如欲<font color="#FF0000">刪除</font>這間餐廳，按下刪除按鈕 >>>
-    <a href="controller/restaurant_delete.php?action1=delete&restname=<?php echo $restname; ?>"><img src="icon/x.jpeg" width="30" height="30"></a>
+    <a href="controller/restaurant_controller.php?action=delete&restname=<?php echo $restname; ?>"><img src="icon/x.jpeg" width="30" height="30"></a>
     <br>
     <a href="index.php">新增菜單</a>
     <a href="restaurant_index.php">餐廳管理</a>

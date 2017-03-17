@@ -19,7 +19,6 @@
             <td align="center" width="300px" bgcolor="#FFABAB">繳費</td>
         </tr>
         <?php
-        var_dump($order_data);
         $num=count($order_data);
         for($k=0;$k<=$num-1;$k++) {
             ?>

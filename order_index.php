@@ -4,6 +4,6 @@
 include ("class/order_index_view.php");
 include ("controller/order_controller.php");
 
-$w = new order_select();
-$w->order();
+$w = new order_system();
+$w-> order_insert_index();
 ?>

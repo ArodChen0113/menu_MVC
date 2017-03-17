@@ -29,7 +29,7 @@
                 <td align="center"><?php echo $row_menu['unit_price']; ?></td>
                 <td align="center"><img src="photo/<?php echo $row_menu['menu_picture']; ?>" width="150" height="150"></td>
                 <td align="center"><a href="menu_update_index.php?num1=<?php echo $num; ?>&restname1=<?php echo $restname; ?>"><img src="icon/pencil.jpeg" width="30" height="30"></a></td>
-                <td align="center"><a href="controller/menu_delete.php?action1=delete&num1=<?php echo $num; ?>"><img src="icon/x.jpeg" width="30" height="30"></a></td>
+                <td align="center"><a href="controller/menu_controller.php?action=delete&restname=<?php echo $restname; ?>&num1=<?php echo $num; ?>"><img src="icon/x.jpeg" width="30" height="30"></a></td>
             </tr>
             <?php
         }

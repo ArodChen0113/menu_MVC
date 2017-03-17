@@ -26,7 +26,7 @@
                 <td align="center"><?php echo $row_orderUpdate['kind']; ?></td>
                 <td align="center"><?php echo $row_orderUpdate['unit_price']; ?></td>
                 <td align="center"><img src="photo/<?php echo $row_orderUpdate['menu_picture']; ?>" width="150" height="150"></td>
-                <td align="center"><a href="controller/order_onlineDelete.php?action1=delete&num=<?php echo $row_orderUpdate['num']; ?>"><img src="icon/x.jpeg" width="30" height="30"></a></td>
+                <td align="center"><a href="controller/order_controller.php?action=delete&num=<?php echo $row_orderUpdate['num']; ?>"><img src="icon/x.jpeg" width="30" height="30"></a></td>
             </tr>
             <?php
         }

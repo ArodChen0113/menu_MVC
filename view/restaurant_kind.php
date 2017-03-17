@@ -4,7 +4,7 @@
     <title>分類管理</title>
 </head>
 <body>
-<form name="from1" action="controller/restaurant_kind_update.php" method="post" enctype="multipart/form-data">
+<form name="from1" action="controller/rest_kind_controller.php" method="post" enctype="multipart/form-data">
     <table border="1">
         <tr>
             <td colspan="2" align="center" bgcolor="#ABFFFF">分類管理</td>
@@ -26,7 +26,7 @@
             }
             foreach ($rest_num_echo[$k] as $i){ ?>
             <input type="hidden" name="num1[]" value="<?php echo $i;?>">
-            <td align="center"><a href="controller/restaurant_kind_delete.php?action1=delete&num2=<?php echo $i ?>"><img src="icon/x.jpeg" width="30" height="30"></a></td>
+            <td align="center"><a href="controller/rest_kind_controller.php?action=delete&num2=<?php echo $i ?>"><img src="icon/x.jpeg" width="30" height="30"></a></td>
         <?php
             }
         ?>
@@ -42,7 +42,7 @@
     <input type="submit" value="修改分類">
 </form>
 
-<form name="from2" action="controller/restaurant_kind_add.php" method="post" enctype="multipart/form-data">
+<form name="from2" action="controller/rest_kind_controller.php" method="post" enctype="multipart/form-data">
 <table border="1">
         <tr>
             <td align="center" bgcolor="#FFABAB">新增分類</td>

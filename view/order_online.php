@@ -7,7 +7,7 @@ include ("menu_js.js");
     <title>下單系統</title>
 </head>
 <body>
-<form action="controller/order_online_add.php" method="post" enctype="multipart/form-data">
+<form action="controller/order_controller.php" method="post" enctype="multipart/form-data">
     <table border="1">
         <tr>
             <td colspan="4" align="center" bgcolor="#ABFFFF">下單區</td>

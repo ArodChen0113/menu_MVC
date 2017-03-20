@@ -4,7 +4,7 @@
     <title>下單系統</title>
 </head>
 <body>
-<form action="orderPay_update.php" method="post" enctype="multipart/form-data">
+<form action="" method="post" enctype="multipart/form-data">
     <table border="1">
         <tr>
             <td colspan="3" align="center" bgcolor="#ABFFFF">下單總覽</td>
@@ -17,14 +17,25 @@
 
         <?php
         if($check!=NULL){
-        while($row_orderSelect = mysqli_fetch_assoc($orderSelect)) {
-            $postname = $row_orderSelect['name'];
+        $num=count($order_name_echo);
+        for($k=0;$k<=$num-1;$k++) {
             ?>
             <tr>
-                <td align="center"><?php echo $row_orderSelect['name']; ?></td>
-                <td align="center"><?php echo $row_orderSelect['price']; ?></td>
-                <td align="center"><a href="order_update_index.php?postname=<?php echo $postname; ?>"><img
+            <?php
+            foreach ($order_name_echo[$k] as $i){ ?>
+                <td align="center"><?php echo $i; ?></td>
+                <?php
+            }
+            foreach ($order_price_echo[$k] as $i){ ?>
+                <td align="center"><?php echo $i; ?></td>
+                <?php
+            }
+            foreach ($order_name_echo[$k] as $i) { ?>
+                <td align="center"><a href="order_update_index.php?postname=<?php echo $i; ?>"><img
                                 src="icon/eye.jpeg" width="30" height="30"></a></td>
+                <?php
+            }
+                ?>
             </tr>
             <?php
         }

@@ -13,7 +13,6 @@
             <td align="center" bgcolor="#FFABAB">分類名稱</td>
             <td align="center" bgcolor="#FFE5B5">刪除</td>
         </tr>
-
         <?php
         $num=count($rest_kind_echo);
         for($k=0;$k<=$num-1;$k++) {
@@ -33,8 +32,6 @@
         </tr>
             <?php
         }?>
-
-
     </table>
 
     <input type="hidden" name="action" value="update">

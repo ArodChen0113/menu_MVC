@@ -10,22 +10,30 @@ class menu_sel_c{
         $this->_view = new View_menu_sel();
     }
 
-    public function menu_sel($restname){
-        $db_host = "127.0.0.1";  //主機位置
-        $db_table = "test";      //資料庫名稱
-        $db_username = "root";   //資料庫帳號
-        $db_password = "root";   //資料庫密碼
-        $db = mysqli_connect("$db_host", "$db_username", "$db_password", "$db_table");//設定資料連線
-        $dbset = mysqli_set_charset($db,"utf8");
+    public function menu_sel($restname){  //餐廳管理>菜單瀏覽
+        require_once("DB_config.php");
+        require_once("DB_Class.php");
 
-        $Rec_menu=mysqli_query($db, "SELECT * FROM `menu` Where `rest_name` = '$restname'"); //菜單資料
-
-//        $Rec_name=mysqli_query($db, "SELECT * FROM `menu` Where `rest_name` = '$restname'"); //菜單資料
-//        $row_menu=mysqli_fetch_assoc($Rec_name);
-//        $restname=$row_menu['rest_name'];
-
-        $this->_view->render('menu_select',$restname ,$Rec_menu);
-
+        $db = new DB();
+        $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
+        $db->query("SELECT `m_num`,`kind`,`unit_price`,`menu_picture` FROM `menu` Where `rest_name` = '$restname'");
+        $k=0;
+        while($result = $db->fetch_array())
+        {
+            $menu_num[$k]=$result['m_num'];
+            $menu_kind[$k]=$result['kind'];
+            $menu_unitprice[$k]=$result['unit_price'];
+            $menu_pic[$k]=$result['menu_picture'];
+            $k++;
+        }
+        $num=count($menu_kind);
+        for($i=0;$i<=$num-1;$i++){
+            $menu_num_echo[$i]=array($menu_num[$i]);
+            $menu_kind_echo[$i]=array($menu_kind[$i]);
+            $menu_unitprice_echo[$i]=array($menu_unitprice[$i]);
+            $menu_pic_echo[$i]=array($menu_pic[$i]);
+        }
+        $this->_view->render('menu_select',$restname,$menu_num_echo ,$menu_kind_echo,$menu_unitprice_echo,$menu_pic_echo);
     }
 }
 

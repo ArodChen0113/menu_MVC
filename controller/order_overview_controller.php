@@ -10,17 +10,26 @@ class order_overview_select
     public function order_overview()
 
     {
-        $db_host = "127.0.0.1";  //主機位置
-        $db_table = "test";      //資料庫名稱
-        $db_username = "root";   //資料庫帳號
-        $db_password = "root";   //資料庫密碼
-        $db = mysqli_connect("$db_host", "$db_username", "$db_password", "$db_table");//設定資料連線
-        $dbset = mysqli_set_charset($db,"utf8");
-        $orderSelect=mysqli_query($db, "SELECT * FROM `menu_order` WHERE `pay`!='9' GROUP BY `name`");
-        $orderCheck=mysqli_query($db, "SELECT * FROM `menu_order` WHERE `pay`!='9' GROUP BY `name`");
-        $row_check=mysqli_fetch_assoc($orderCheck);
-        $check=$row_check['name'];
-        $this->_view->render('order_onlineSelect' , $orderSelect , $check);
+        require_once("DB_config.php");
+        require_once("DB_Class.php");
+
+        $db = new DB();
+        $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
+        $db->query("SELECT `name`,`price` FROM `menu_order` WHERE `pay`!='9' GROUP BY `name`");
+        $k=0;
+        while($result = $db->fetch_array())
+        {
+            $order_name[$k]=$result['name'];
+            $order_price[$k]=$result['price'];
+            $k++;
+        }
+        $num=count($order_name);
+        for($i=0;$i<=$num-1;$i++){
+            $order_name_echo[$i]=array($order_name[$i]);
+            $order_price_echo[$i]=array($order_price[$i]);
+        }
+        $check=$order_name;
+        $this->_view->render('order_onlineSelect' , $order_name_echo, $order_price_echo , $check);
     }
 
 }

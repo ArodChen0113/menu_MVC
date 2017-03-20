@@ -10,7 +10,7 @@
             <td colspan="5" align="center" bgcolor="#ABFFFF">菜單總覽</td>
         </tr>
         <tr>
-            <td colspan="5" align="center" bgcolor="#FFABAB"><?php echo '123'; ?></td>
+            <td colspan="5" align="center" bgcolor="#FFABAB"><?php echo '餐廳名稱：'.$restname; ?></td>
         </tr>
         <tr>
             <td align="center" width="300px" bgcolor="#FFE1AB">菜單</td>
@@ -21,15 +21,31 @@
         </tr>
 
         <?php
-        while($row_menu = mysqli_fetch_assoc($Rec_menu)) {
-            $num=$row_menu['m_num'];
+        $num=count($menu_kind_echo);
+        for($k=0;$k<=$num-1;$k++) {
             ?>
             <tr>
-                <td align="center"><?php echo $row_menu['kind']; ?></td>
-                <td align="center"><?php echo $row_menu['unit_price']; ?></td>
-                <td align="center"><img src="photo/<?php echo $row_menu['menu_picture']; ?>" width="150" height="150"></td>
-                <td align="center"><a href="menu_update_index.php?num1=<?php echo $num; ?>&restname1=<?php echo $restname; ?>"><img src="icon/pencil.jpeg" width="30" height="30"></a></td>
-                <td align="center"><a href="controller/menu_controller.php?action=delete&restname=<?php echo $restname; ?>&num1=<?php echo $num; ?>"><img src="icon/x.jpeg" width="30" height="30"></a></td>
+                <?php
+                foreach ($menu_kind_echo[$k] as $i){ ?>
+                <td align="center"><?php echo $i; ?></td>
+                    <?php
+                }
+                foreach ($menu_unitprice_echo[$k] as $i){ ?>
+                <td align="center"><?php echo $i; ?></td>
+                    <?php
+                }
+                foreach ($menu_pic_echo[$k] as $i){ ?>
+                <td align="center"><img src="photo/<?php echo $i; ?>" width="150" height="150"></td>
+                    <?php
+                }
+                foreach ($menu_num_echo[$k] as $i){ ?>
+                <td align="center"><a href="menu_update_index.php?num1=<?php echo $i; ?>&restname1=<?php echo $restname; ?>"><img src="icon/pencil.jpeg" width="30" height="30"></a></td>
+                    <?php
+                }
+                foreach ($menu_num_echo[$k] as $i){ ?>
+                <td align="center"><a href="controller/menu_controller.php?action=delete&restname=<?php echo $restname; ?>&num1=<?php echo $i; ?>"><img src="icon/x.jpeg" width="30" height="30"></a></td>
+                    <?php
+                } ?>
             </tr>
             <?php
         }

@@ -4,7 +4,7 @@
     <title>下單系統</title>
 </head>
 <body>
-<form action="order_online.php" method="post" enctype="multipart/form-data">
+<form action="order_index.php" method="post" enctype="multipart/form-data">
     <table border="1">
         <tr>
             <td colspan="4" align="center" bgcolor="#ABFFFF">下單瀏覽＆修改</td>
@@ -18,15 +18,31 @@
             <td align="center" width="100px" bgcolor="#59FFFF">圖片</td>
             <td align="center" width="300px" bgcolor="#DBABFF">刪除</td>
         </tr>
-
         <?php
-        while($row_orderUpdate = mysqli_fetch_assoc($orderUpdate)) {
+        $num=count($order_kind_echo);
+        for($k=0;$k<=$num-1;$k++) {
             ?>
             <tr>
-                <td align="center"><?php echo $row_orderUpdate['kind']; ?></td>
-                <td align="center"><?php echo $row_orderUpdate['unit_price']; ?></td>
-                <td align="center"><img src="photo/<?php echo $row_orderUpdate['menu_picture']; ?>" width="150" height="150"></td>
-                <td align="center"><a href="controller/order_controller.php?action=delete&num=<?php echo $row_orderUpdate['num']; ?>"><img src="icon/x.jpeg" width="30" height="30"></a></td>
+                <?php
+                foreach ($order_kind_echo[$k] as $i){ ?>
+                <td align="center"><?php echo $i; ?></td>
+                    <?php
+                }
+                foreach ($order_unitprice_echo[$k] as $i){ ?>
+                <td align="center"><?php echo $i; ?></td>
+                    <?php
+                }
+                foreach ($order_pic_echo[$k] as $i){ ?>
+                <td align="center"><img src="photo/<?php echo $i; ?>" width="150" height="150"></td>
+                    <?php
+                }
+                foreach ($order_num_echo[$k] as $i) { ?>
+                    <td align="center"><a
+                                href="controller/order_controller.php?action=delete&num=<?php echo $i; ?>"><img
+                                    src="icon/x.jpeg" width="30" height="30"></a></td>
+                    <?php
+                }
+                ?>
             </tr>
             <?php
         }

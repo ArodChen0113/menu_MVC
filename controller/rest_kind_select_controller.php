@@ -9,29 +9,37 @@ class order_kind_select{
     }
 
     public function order_k($select1,$rest1){
-        $db_host = "127.0.0.1";  //主機位置
-        $db_table = "test";      //資料庫名稱
-        $db_username = "root";   //資料庫帳號
-        $db_password = "root";   //資料庫密碼
-        $db = mysqli_connect("$db_host", "$db_username", "$db_password", "$db_table");//設定資料連線
-        $dbset = mysqli_set_charset($db,"utf8");
+        require_once("DB_config.php");
+        require_once("DB_Class.php");
 
-        $Rec_resrname=mysqli_query($db, "SELECT `rest_name` FROM `restaurant` WHERE `rest_kind`='$select1'");
+        $db = new DB();
+        $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
+        $db->query("SELECT `rest_name` FROM `restaurant` WHERE `rest_kind`='$select1'");
         $k=0;
-        while($row_restname=mysqli_fetch_assoc($Rec_resrname)){
-            $rest_name[$k]=$row_restname;
+        while($result = $db->fetch_array())
+        {
+            $rest_name[$k]=$result['rest_name'];;
             $k++;
+        }
+        $num=count($rest_name);
+        for($i=0;$i<=$num-1;$i++){
+            $sel_restname[$i]=array($rest_name[$i]);
         }
         session_start();
-        $_SESSION['rest_name']=$rest_name;
+        $_SESSION['rest_name']=$sel_restname;
 
-        $Rec_resrname2=mysqli_query($db, "SELECT `rest_name` FROM `restaurant` WHERE `rest_kind`='$rest1'");
+        $db->query("SELECT `rest_name` FROM `restaurant` WHERE `rest_kind`='$rest1'");
         $k=0;
-        while($row_restname2=mysqli_fetch_assoc($Rec_resrname2)){
-            $rest_name2[$k]=$row_restname2;
+        while($result2 = $db->fetch_array())
+        {
+            $rest_name2[$k]=$result2['rest_name'];;
             $k++;
         }
-        $_SESSION['rest_name2']=$rest_name2;
+        $num=count($rest_name2);
+        for($i=0;$i<=$num-1;$i++){
+            $sel_restname2[$i]=array($rest_name2[$i]);
+        }
+        $_SESSION['rest_name2']=$sel_restname2;
         header("Location:../restaurant_index.php?select1=$select1&rest1=$rest1");
     }
 }

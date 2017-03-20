@@ -10,22 +10,28 @@ class restaurant_kind_name_c
     }
     public function restaurant_kind()
     {
-        $db_host = "127.0.0.1";  //主機位置
-        $db_table = "test";      //資料庫名稱
-        $db_username = "root";   //資料庫帳號
-        $db_password = "root";   //資料庫密碼
-        $db = mysqli_connect("$db_host", "$db_username", "$db_password", "$db_table");//設定資料連線
-        $dbset = mysqli_set_charset($db,"utf8");
-        $Rec_RestKind=mysqli_query($db, "SELECT `rest_kind` FROM `restaurant_kind`"); //分類選單1
+        require_once("DB_config.php");
+        require_once("DB_Class.php");
+
+        $db = new DB();
+        $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
+        $db->query("SELECT `rest_kind` FROM `restaurant_kind`"); //分類選單1
         $k=0;
-        while($row_restkind=mysqli_fetch_assoc($Rec_RestKind)){
-            $sel_restkind[$k]=$row_restkind;
+        while($result = $db->fetch_array())
+        {
+            $rest_kind[$k]=$result['rest_kind'];;
             $k++;
         }
-        $Rec_todeyopen=mysqli_query($db, "SELECT `rest_name` FROM `restaurant` WHERE `rest_open` = '1'"); //今日開餐
-        $row_todayopen=mysqli_fetch_assoc($Rec_todeyopen);
-        $todayopen=$row_todayopen['rest_name'];
+        $num=count($rest_kind);
+        for($i=0;$i<=$num-1;$i++){
+            $sel_restkind[$i]=array($rest_kind[$i]);
+        }
 
+        $db->query("SELECT `rest_name` FROM `restaurant` WHERE `rest_open` = '1'"); //今日開餐
+        while($result2 = $db->fetch_array())
+        {
+            $todayopen=$result2['rest_name'];;
+        }
         $this->_view->render('restaurant_index' , $sel_restkind , $todayopen);
     }
 }

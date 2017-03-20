@@ -1,4 +1,5 @@
 <?php
+namespace model;
 
 global $_DB;
 $_DB['host'] = "127.0.0.1";

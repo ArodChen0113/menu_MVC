@@ -5,5 +5,5 @@ include ("class/view.php");
 include ("controller/menu_controller.php");
 
 $w = new menu_system();
-$w->rest_menu_insert_index();
+$w->rest_menu_insert_index_show();
 ?>

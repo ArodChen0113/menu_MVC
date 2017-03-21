@@ -40,9 +40,9 @@ class menu_system
 
     public function __construct()
     {
-        $this->_view = new View_menu_index();
+        $this->_view = new View_screen_show();
     }
-    public function rest_menu_insert_index()
+    public function rest_menu_insert_index_show()
     {
         require_once("model/DB_config.php");
         require_once("model/DB_Class.php");
@@ -59,7 +59,58 @@ class menu_system
         for($i=0;$i<=$num-1;$i++){
             $rest_kind_echo[$i]=array($rest_kind[$i]);
         }
-        $this->_view->render('menu_index' , $rest_kind_echo);
+        $this->_view->rest_menu_insert_index_view('menu_index' , $rest_kind_echo);
+    }
+
+    public function menu_sel_show($restname){  //餐廳管理>菜單瀏覽
+        require_once("model/DB_config.php");
+        require_once("model/DB_Class.php");
+        $db = new DB();
+        $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
+        $db->select("`m_num`,`kind`,`unit_price`,`menu_picture`","`menu`","`rest_name` = '$restname'");
+        $k=0;
+        while($result = $db->fetch_array())
+        {
+            $menu_num[$k]=$result['m_num'];
+            $menu_kind[$k]=$result['kind'];
+            $menu_unitprice[$k]=$result['unit_price'];
+            $menu_pic[$k]=$result['menu_picture'];
+            $k++;
+        }
+        $num=count($menu_kind);
+        for($i=0;$i<=$num-1;$i++){
+            $menu_num_echo[$i]=array($menu_num[$i]);
+            $menu_kind_echo[$i]=array($menu_kind[$i]);
+            $menu_unitprice_echo[$i]=array($menu_unitprice[$i]);
+            $menu_pic_echo[$i]=array($menu_pic[$i]);
+        }
+        $this->_view->menu_sel_view('menu_select',$restname,$menu_num_echo ,$menu_kind_echo,$menu_unitprice_echo,$menu_pic_echo);
+    }
+
+    public function menu_up_show($num,$restname){
+        require_once("model/DB_config.php");
+        require_once("model/DB_Class.php");
+
+        $db = new DB();
+        $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
+        $db->select("`m_num`,`kind`,`unit_price`,`menu_picture`","`menu`","`m_num`='$num'");
+        $k=0;
+        while($result = $db->fetch_array())
+        {
+            $menu_num[$k]=$result['m_num'];
+            $menu_kind[$k]=$result['kind'];
+            $menu_unitprice[$k]=$result['unit_price'];
+            $menu_pic[$k]=$result['menu_picture'];
+            $k++;
+        }
+        $num=count($menu_kind);
+        for($i=0;$i<=$num-1;$i++){
+            $menu_num_echo[$i]=array($menu_num[$i]);
+            $menu_kind_echo[$i]=array($menu_kind[$i]);
+            $menu_unitprice_echo[$i]=array($menu_unitprice[$i]);
+            $menu_pic_echo[$i]=array($menu_pic[$i]);
+        }
+        $this->_view->menu_up_view('menu_update',$menu_num_echo,$restname,$menu_kind_echo,$menu_unitprice_echo,$menu_pic_echo);
     }
 
     public function rest_menu_insert($rest_kind,$rest_name,$rest_tel,$restpic_tmpname,$restpic_name,$kind,$price,$menu_tmpname,$menu_name,$action) //新增餐廳＆菜單
@@ -124,6 +175,21 @@ class menu_system
             $db->delete('menu',"`m_num`='$num'");
             header("Location:../menu_select_index.php?restname=$restname");
         }
+    }
+
+    public function openmeal_show()
+    {
+        $db_host = "127.0.0.1";  //主機位置
+        $db_table = "test";      //資料庫名稱
+        $db_username = "root";   //資料庫帳號
+        $db_password = "root";   //資料庫密碼
+        $db = mysqli_connect("$db_host", "$db_username", "$db_password", "$db_table");//設定資料連線
+        $dbset = mysqli_set_charset($db,"utf8");
+        $Rec_open=mysqli_query($db, "SELECT `rest_name`,`rest_picture` FROM `restaurant` Where `rest_open` = '1'"); //搜尋今日開餐
+        $row_open=mysqli_fetch_assoc($Rec_open);
+        $op_name=$row_open['rest_name'];
+        $op_pic=$row_open['rest_picture'];
+        $this->_view->openmeal_view('openmeal_html' , $op_name , $op_pic);
     }
 }
 

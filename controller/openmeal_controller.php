@@ -7,8 +7,8 @@ class openmeal_select
     {
         $this->_view = new View_open_index();
     }
-    public function openmeal()
 
+    public function openmeal()  //今日開餐顯示控制
     {
         $db_host = "127.0.0.1";  //主機位置
         $db_table = "test";      //資料庫名稱
@@ -20,7 +20,6 @@ class openmeal_select
         $row_open=mysqli_fetch_assoc($Rec_open);
         $op_name=$row_open['rest_name'];
         $op_pic=$row_open['rest_picture'];
-        $this->_view->render('openmeal_html' , $op_name , $op_pic);
+        $this->_view->openmeal_view('openmeal_html' , $op_name , $op_pic);
     }
-
 }

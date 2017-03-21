@@ -7,7 +7,7 @@ session_start();
     <title>餐廳系統</title>
 </head>
 <body>
-<form name="rest_open" action="controller/restaurant_open_update.php" method="post" enctype="multipart/form-data">
+<form name="rest_open" action="controller/restaurant_controller.php" method="post" enctype="multipart/form-data">
     <table border="1">
         <tr>
             <td colspan="3" align="center" bgcolor="#FFABAB">今日開餐</td>
@@ -19,7 +19,7 @@ session_start();
         </tr>
         <tr>
             <td>請選擇今日開餐餐廳：</td>
-            <td><select style="width:240px" name="kind1" onchange="window.location='controller/rest_kind_select_controller.php?select1='+this.value">
+            <td><select style="width:240px" name="kind1" onchange="window.location='controller/rest_kind_controller.php?action=control1&select1='+this.value">
                     <option value=""><?php
                         if($_GET['select1']!=NULL){
                             echo $_GET['select1'];
@@ -36,7 +36,7 @@ session_start();
                         }}
                     ?>
                 </select></td>
-            <td><select style="width:240px" name="kind2" onchange="window.location='controller/rest_kind_select_controller2.php?select1=<?php echo $_GET['select1'];?>&select2='+this.value">
+            <td><select style="width:240px" name="kind2" onchange="window.location='controller/rest_kind_controller.php?action=control2&select1=<?php echo $_GET['select1'];?>&select2='+this.value">
 
                     <option value=""><?php
                         if($_GET['select2']!=NULL){

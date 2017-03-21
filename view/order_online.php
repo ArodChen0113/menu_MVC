@@ -19,7 +19,7 @@ include ("menu_js.js");
             <td align="center" width="30px" bgcolor="#FFABAB">訂購人</td>
         </tr>
         <tr>  <!--選單一-->
-            <td><select style="width:240px" name="kind1" onchange="window.location='controller/menu_order_controller.php?&select1='+this.value">
+            <td><select style="width:240px" name="kind1" onchange="window.location='controller/order_controller.php?action=detail&select1='+this.value">
                     <option value=""><?php
                         if($_GET['select1']!=NULL){
                             echo $_GET['select1'];
@@ -48,7 +48,7 @@ include ("menu_js.js");
         </tr>
 
         <tr>  <!--選單＝-->
-            <td><select style="width:240px" name="kind2" onchange="window.location='controller/menu_order_controller.php?&select1=<?php echo $_GET['select1'];?>&select2='+this.value">
+            <td><select style="width:240px" name="kind2" onchange="window.location='controller/order_controller.php?action=detail&select1=<?php echo $_GET['select1'];?>&select2='+this.value">
                     <option value=""><?php
                         if($_GET['select2']!=NULL){
                             echo $_GET['select2'];
@@ -76,7 +76,7 @@ include ("menu_js.js");
         </tr>
 
         <tr>  <!--選單三-->
-            <td><select style="width:240px" name="kind3" onchange="window.location='controller/menu_order_controller.php?select1=<?php echo $_GET['select1'];?>&select2=<?php echo $_GET['select2'];?>&select3='+this.value">
+            <td><select style="width:240px" name="kind3" onchange="window.location='controller/order_controller.php?action=detail&select1=<?php echo $_GET['select1'];?>&select2=<?php echo $_GET['select2'];?>&select3='+this.value">
                     <option value=""><?php
                         if($_GET['select3']!=NULL){
                             echo $_GET['select3'];
@@ -104,7 +104,7 @@ include ("menu_js.js");
         </tr>
 
         <tr>  <!--選單四-->
-            <td><select style="width:240px" name="kind4" onchange="window.location='controller/menu_order_controller.php?select1=<?php echo $_GET['select1'];?>&select2=<?php echo $_GET['select2'];?>&select3=<?php echo $_GET['select3'];?>&select4='+this.value">
+            <td><select style="width:240px" name="kind4" onchange="window.location='controller/order_controller.php?action=detail&select1=<?php echo $_GET['select1'];?>&select2=<?php echo $_GET['select2'];?>&select3=<?php echo $_GET['select3'];?>&select4='+this.value">
                     <option value=""><?php
                         if($_GET['select4']!=NULL){
                             echo $_GET['select4'];
@@ -132,7 +132,7 @@ include ("menu_js.js");
         </tr>
 
         <tr>  <!--選單五-->
-            <td><select style="width:240px" name="kind5" onchange="window.location='controller/menu_order_controller.php?select1=<?php echo $_GET['select1'];?>&select2=<?php echo $_GET['select2'];?>&select3=<?php echo $_GET['select3'];?>&select4=<?php echo $_GET['select4'];?>&select5='+this.value">
+            <td><select style="width:240px" name="kind5" onchange="window.location='controller/order_controller.php?action=detail&select1=<?php echo $_GET['select1'];?>&select2=<?php echo $_GET['select2'];?>&select3=<?php echo $_GET['select3'];?>&select4=<?php echo $_GET['select4'];?>&select5='+this.value">
                     <option value=""><?php
                         if($_GET['select5']!=NULL){
                             echo $_GET['select5'];

@@ -11,12 +11,11 @@ class menu_sel_c{
     }
 
     public function menu_sel($restname){  //餐廳管理>菜單瀏覽
-        require_once("DB_config.php");
-        require_once("DB_Class.php");
-
+        require_once("../model/DB_config.php");
+        require_once("../model/DB_Class.php");
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-        $db->query("SELECT `m_num`,`kind`,`unit_price`,`menu_picture` FROM `menu` Where `rest_name` = '$restname'");
+        $db->select("`m_num`,`kind`,`unit_price`,`menu_picture`","`menu`","`rest_name` = '$restname'");
         $k=0;
         while($result = $db->fetch_array())
         {
@@ -36,5 +35,3 @@ class menu_sel_c{
         $this->_view->render('menu_select',$restname,$menu_num_echo ,$menu_kind_echo,$menu_unitprice_echo,$menu_pic_echo);
     }
 }
-
-?>

@@ -27,6 +27,9 @@
                 foreach ($order_data[$k] as $i) {
                     echo "<td align=\"center\"><b>" . $i . "</<b></td>";
                 }
+                foreach ($order_unitprice[$k] as $i) {
+                    echo "<td align=\"center\"><b>" . $i . "</<b></td>";
+                }
                 foreach ($order_pay[$k] as $i) {
                 ?>
                 <td align="center">
@@ -56,7 +59,7 @@
             <td align="center">訂餐人數</td><td align="center" colspan="2"><?php echo $order_people; ?></td>
         </tr>
         <tr>
-            <td align="center">餐點數量</td><td align="center" colspan="2"><?php echo $row_orderCount['orderCount']; ?>
+            <td align="center">餐點數量</td><td align="center" colspan="2"><?php echo $orderCount; ?>
             </td>
         </tr>
         <tr>

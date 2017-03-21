@@ -1,6 +1,5 @@
 <?php
 
-
 class menu_up_c{
 
     protected $_view;
@@ -11,12 +10,12 @@ class menu_up_c{
     }
 
     public function menu_up($num,$restname){
-        require_once("DB_config.php");
-        require_once("DB_Class.php");
+        require_once("../model/DB_config.php");
+        require_once("../model/DB_Class.php");
 
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-        $db->query("SELECT `m_num`,`kind`,`unit_price`,`menu_picture` FROM `menu` WHERE `m_num`='$num'");
+        $db->select("`m_num`,`kind`,`unit_price`,`menu_picture`","`menu`","`m_num`='$num'");
         $k=0;
         while($result = $db->fetch_array())
         {

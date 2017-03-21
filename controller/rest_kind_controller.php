@@ -34,6 +34,8 @@ class rest_kind_system
 
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
+
+
         $db->query("SELECT `rest_kind`,`num` FROM `restaurant_kind`");
         $k=0;
         while($result = $db->fetch_array())

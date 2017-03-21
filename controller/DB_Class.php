@@ -1,21 +1,23 @@
 <?php
+//include_once("DB_config.php");
+
 
 class DB
 {
     var $_dbConn = 0;
     var $_queryResource = 0;
 
-    function DB()
-    {
-        //do nothing
-    }
+//    function DB()
+//    {
+//        //do nothing
+//    }
 
     function connect_db($host, $user, $pwd, $dbname)
     {
         $dbConn = mysqli_connect($host, $user, $pwd, $dbname);
         if (! $dbConn)
             die ("MySQL Connect Error");
-        mysqli_set_charset($dbConn,"utf8");;
+        mysqli_set_charset($dbConn,"utf8");
         $this->_dbConn = $dbConn;
         return true;
     }

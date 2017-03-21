@@ -10,76 +10,141 @@ class order_list_select
     public function order_list()
 
     {
-        $db_host = "127.0.0.1";  //主機位置
-        $db_table = "test";      //資料庫名稱
-        $db_username = "root";   //資料庫帳號
-        $db_password = "root";   //資料庫密碼
-        $db = mysqli_connect("$db_host", "$db_username", "$db_password", "$db_table");//設定資料連線
-        $dbset = mysqli_set_charset($db,"utf8");
+        require_once("model/DB_config.php");
+        require_once("model/DB_Class.php");
+        $db = new DB();
+        $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
+        $db->select("`rest_name`,`rest_tel`", "`restaurant`", "`rest_open`='1'"); //今日開餐＆電話
+        while ($result1 = $db->fetch_array()) {
+            $open_restName = $result1['rest_name'];
+            $open_restTel = $result1['rest_tel'];
+        }
 
-        $Rec_orderRest=mysqli_query($db, "SELECT `rest_name`,`rest_tel` FROM `restaurant` WHERE `rest_open`='1'"); //今日開餐＆電話
-        $row_orderRest=mysqli_fetch_assoc($Rec_orderRest);
-        $open_restName=$row_orderRest['rest_name'];
-        $open_restTel=$row_orderRest['rest_tel'];
+        $db->select("`name`,`price`", "`menu_order`", "`pay`!='9' GROUP BY `name`"); //訂購名單
+        $k = 0;
+        while ($result2 = $db->fetch_array()) {
+            $row_name[$k] = $result2['name'];
+            $k++;
+        }
+        $num = count($row_name);
+        for ($i = 0; $i <= $num - 1; $i++) {
+            $order_data[$i] = array($row_name[$i]);
+        }
 
-        $Rec_ordername=mysqli_query($db, "SELECT `name`,`price`FROM `menu_order` WHERE `pay`!='9' GROUP BY `name`"); //訂購名單
-        $k=0;
-        while($row_orderName=mysqli_fetch_assoc($Rec_ordername)){
-            $order_data[$k]=$row_orderName;
+        $db->select("`name`,`price`", "`menu_order`", "`pay`!='9' GROUP BY `name`"); //訂購單價
+        $k = 0;
+        while ($result3 = $db->fetch_array()) {
+            $row_price[$k] = $result3['price'];
             $k++;
         }
-        $Rec_orderpay=mysqli_query($db, "SELECT `pay`FROM `menu_order` WHERE `pay`!='9' GROUP BY `name`"); //是否付款
-        $k=0;
-        while($row_orderpay=mysqli_fetch_assoc($Rec_orderpay)){
-            $order_pay[$k]=$row_orderpay;
+        $num = count($row_price);
+        for ($i = 0; $i <= $num - 1; $i++) {
+            $order_unitprice[$i] = array($row_price[$i]);
+        }
+
+        $db->select("`pay`", "`menu_order`", "`pay`!='9' GROUP BY `name`"); //是否付款
+        $k = 0;
+        while ($result4 = $db->fetch_array()) {
+            $row_pay[$k] = $result4['pay'];
             $k++;
         }
-        $Rec_ordername=mysqli_query($db, "SELECT `name`FROM `menu_order` WHERE `pay`!='9' GROUP BY `name`"); //付款名單
-        $k=0;
-        while($row_ordername=mysqli_fetch_assoc($Rec_ordername)){
-            $order_name[$k]=$row_ordername;
+        $num = count($row_pay);
+        for ($i = 0; $i <= $num - 1; $i++) {
+            $order_pay[$i] = array($row_pay[$i]);
+        }
+
+        $db->select("`name`", "`menu_order`", "`pay`!='9' GROUP BY `name`"); //付款名單
+        $k = 0;
+        while ($result5 = $db->fetch_array()) {
+            $row_ordername[$k] = $result5['name'];
             $k++;
         }
-        $order_person=mysqli_query($db, "SELECT DISTINCT `name`as person FROM `menu_order` WHERE `pay`!='9'"); //訂餐人數
-        $order_people=0;
-        while ($row_orderPerson=mysqli_fetch_assoc($order_person)){
+        $num = count($row_ordername);
+        for ($i = 0; $i <= $num - 1; $i++) {
+            $order_name[$i] = array($row_ordername[$i]);
+        }
+
+        $db->select("DISTINCT `name`as person", "`menu_order`", "`pay`!='9'"); //訂餐人數
+        $order_people = 0;
+        while ($result6 = $db->fetch_array()) {
+            $row_person = $result6['person'];
             $order_people++;
         }
 
-        $order_count=mysqli_query($db, "SELECT COUNT(`name`)as orderCount FROM `menu_order` WHERE `pay`!='9'"); //餐點數量
-        $row_orderCount=mysqli_fetch_assoc($order_count);
-
-        $order_sum=mysqli_query($db, "SELECT DISTINCT `name`,price FROM `menu_order` WHERE `pay`!='9'"); //金額總計
-        $totalPrice=0;
-        while ($row_orderSum=mysqli_fetch_assoc($order_sum)){
-            $totalPrice=$totalPrice+$row_orderSum['price'];
+        $db->select("COUNT(`name`)as orderCount", "`menu_order`", "`pay`!='9'"); //餐點數量
+        while ($result7 = $db->fetch_array()) {
+            $orderCount = $result7['orderCount'];
         }
 
-        $Rec_ordermenu=mysqli_query($db, "SELECT `kind` FROM `menu_order` WHERE `pay`!='9' GROUP BY `kind`");  //訂購菜單
-        $k=0;
-        while($row_ordermenu=mysqli_fetch_assoc($Rec_ordermenu)){
-            $order_menu[$k]=$row_ordermenu;
+        $db->select("DISTINCT `name`,price", "`menu_order`", "`pay`!='9'");  //金額總計
+        $totalPrice = 0;
+        while ($result8 = $db->fetch_array()) {
+            $row_ordersum = $result8['price'];
+            $totalPrice = $totalPrice + $row_ordersum;
+        }
 
-            $select_orderkind=$row_ordermenu['kind'];
-            $orderMenu_data=mysqli_query($db, "SELECT `menu_picture` FROM `menu` WHERE `kind`='$select_orderkind'"); //菜單圖片
-            while ($row_orderMenu_data = mysqli_fetch_assoc($orderMenu_data)){
-                $order_pic[$k]=$row_orderMenu_data;
-            }
-            $orderMenu_price=mysqli_query($db, "SELECT `unit_price` FROM `menu` WHERE `kind`='$select_orderkind'"); //菜單價錢
-            while ($row_orderMenu_price = mysqli_fetch_assoc($orderMenu_price)){
-                $order_price[$k]=$row_orderMenu_price;
-            }
-            $orderMenu_count=mysqli_query($db, " SELECT COUNT(`kind`) as Countkind FROM `menu_order` WHERE `kind`='$select_orderkind' AND `pay`!='9'"); //菜單價錢
-            while ($row_orderMenu_count = mysqli_fetch_assoc($orderMenu_count)){
-                $order_count_num[$k]=$row_orderMenu_count;
-            }
-            $orderMenu_name=mysqli_query($db, "SELECT `name` FROM `menu_order` WHERE `kind`='$select_orderkind' AND `pay`!='9'"); //菜單價錢
-            while ($row_orderMenu_name = mysqli_fetch_assoc($orderMenu_name)){
-                $order_count_name[$k]=$row_orderMenu_name;
-            }
+        $db->select("`kind`", "`menu_order`", "`pay`!='9' GROUP BY `kind`"); //訂購菜單
+        $k = 0;
+        while ($result9 = $db->fetch_array()) {
+            $row_menu[$k] = $result9['kind'];
             $k++;
         }
-        $this->_view->render('order',$open_restName,$open_restTel,$order_data,$order_pay,$order_name,$order_people,$row_orderCount,$totalPrice,$order_menu,$order_pic,$order_count_num,$order_price,$order_count_name);
+        $num = count($row_menu);
+        for ($i = 0; $i <= $num - 1; $i++) {
+            $order_menu[$i] = array($row_menu[$i]);
+        }
+
+        $count=count($row_menu);
+        for($c=0;$c<=$count-1;$c++) {
+            $select_orderkind = $row_menu[$c];
+            $db->select("`menu_picture`", "`menu`", "`kind`='$select_orderkind'"); //菜單圖片
+            while ($result10 = $db->fetch_array()) {
+                $row_pic[$c] = $result10['menu_picture'];
+            }
+        }
+        $num = count($row_pic);
+        for ($i = 0; $i <= $num - 1; $i++) {
+            $order_pic[$i] = array($row_pic[$i]);
+        }
+
+        for($c=0;$c<=$count-1;$c++) {
+            $select_orderkind = $row_menu[$c];
+            $db->select("`unit_price`", "`menu`", "`kind`='$select_orderkind'"); //菜單價錢
+            while ($result11 = $db->fetch_array()) {
+                $row_unitprice[$c] = $result11['unit_price'];
+            }
+        }
+
+        $num = count($row_unitprice);
+        for ($i = 0; $i <= $num - 1; $i++) {
+            $order_price[$i] = array($row_unitprice[$i]);
+        }
+
+        for($c=0;$c<=$count-1;$c++) {
+            $select_orderkind = $row_menu[$c];
+            $db->select("COUNT(`kind`) as Countkind", "`menu_order`", "`kind`='$select_orderkind' AND `pay`!='9'"); //點餐數量
+            while ($result12 = $db->fetch_array()) {
+                $row_countkind[$c] = $result12['Countkind'];
+            }
+        }
+        $num = count($row_countkind);
+        for ($i = 0; $i <= $num - 1; $i++) {
+            $order_count_num[$i] = array($row_countkind[$i]);
+        }
+
+        for($c=0;$c<=$count-1;$c++) {
+            $select_orderkind = $row_menu[$c];
+            $db->select("`name`", "`menu_order`", "`kind`='$select_orderkind' AND `pay`!='9'"); //點餐名單
+            while ($result13 = $db->fetch_array()) {
+                $row_ordermenu_name[$c] = $result13['name'];
+            }
+        }
+        $num = count($row_ordermenu_name);
+        for ($i = 0; $i <= $num - 1; $i++) {
+            $order_count_name[$i] = array($row_ordermenu_name[$i]);
+        }
+
+        $this->_view->render('order',$open_restName,$open_restTel,$order_data,$order_unitprice,$order_pay,$order_name,$order_people,$orderCount,$totalPrice,$order_menu,$order_pic,$order_count_num,$order_price,$order_count_name);
     }
 
 }

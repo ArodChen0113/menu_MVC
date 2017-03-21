@@ -7,7 +7,7 @@ include ("menu_js.js");
     <title>訂購系統</title>
 </head>
 <body>
-<form action="controller/menu_add.php" method="post" enctype="multipart/form-data">
+<form action="controller/menu_controller.php" method="post" enctype="multipart/form-data">
     <table border="1">
         <tr>
             <td colspan="4" align="center" bgcolor="#FFABFF">新增餐廳Menu</td>

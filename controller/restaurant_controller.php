@@ -28,12 +28,10 @@ class restaurant_system{
     }
 
     public function rest_update_index($restname){
-        require_once("DB_config.php");
-        require_once("DB_Class.php");
-
+        require_once("model/DB_config.php");
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-        $db->query("SELECT * FROM `restaurant` Where `rest_name` = '$restname'");
+        $db -> select_all('restaurant',"`rest_name` = '$restname'");
 
         while($result = $db->fetch_array())
         {
@@ -51,18 +49,18 @@ class restaurant_system{
 
         if ($action != NULL && $action == 'update') //判斷值是否由欄位輸入
         {
-            require_once("DB_config.php");
-            require_once("DB_Class.php");
-
+            require_once("../model/DB_config.php");
+            require_once("../model/DB_Class.php");
             $db = new DB();
             $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-            $db->query("UPDATE restaurant SET `rest_name` = '$restName' WHERE `num` = '$num'");  //修改餐廳名稱
-            $db->query("UPDATE restaurant SET `rest_kind` = '$restKind' WHERE `num` = '$num'");  //修改餐廳類別
-            $db->query("UPDATE restaurant SET `rest_tel` = '$restTel' WHERE `num` = '$num'");    //修改餐廳電話
+            $db -> update('restaurant',"`rest_name` = '$restName'","`num` = '$num'");
+            $db -> update('restaurant',"`rest_kind` = '$restKind'","`num` = '$num'");
+            $db -> update('restaurant',"`rest_tel` = '$restTel'","`num` = '$num'");
+
             if (!move_uploaded_file($restPic_tmpname, "photo/".$restPic_name)) {                 //執行圖片上傳
                 header("Location:../restaurant_index.php");
             } else {
-                $db->query("UPDATE restaurant SET `rest_picture` = '$restPic_name' WHERE `num` = '$num'"); //修改餐廳圖片
+                $db -> update('restaurant',"`rest_picture` = '$restPic_name'","`num` = '$num'"); //修改餐廳圖片
                 header("Location:../restaurant_index.php");
             }
         }
@@ -73,14 +71,13 @@ class restaurant_system{
 
         if ($action != NULL && $action == 'delete') //判斷值是否由欄位輸入
         {
-            require_once("DB_config.php");
-            require_once("DB_Class.php");
-
+            require_once("../model/DB_config.php");
+            require_once("../model/DB_Class.php");
             $db = new DB();
             $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-            $db->query("DELETE FROM menu_order WHERE `rest_name`='$restName'");  //刪除訂購餐點
-            $db->query("DELETE FROM menu WHERE `rest_name`='$restName'");        //刪除餐廳菜單
-            $db->query("DELETE FROM restaurant WHERE `rest_name`='$restName'");  //刪除餐廳資料
+            $db->delete('menu_order',"`rest_name`='$restName'");
+            $db->delete('menu',"`rest_name`='$restName'");
+            $db->delete('restaurant',"`rest_name`='$restName'");
             header("Location:../restaurant_index.php");
         }
     }

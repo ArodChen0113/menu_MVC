@@ -187,6 +187,6 @@ include ("menu_js.js");
     <a href="order_list_index.php">訂單總覽</a>
 
 </form>
-<?php include("openmeal_index.php"); ?>
+<?php include_once("openmeal_index.php"); ?>
 </body>
 </html>

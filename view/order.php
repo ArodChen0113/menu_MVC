@@ -44,7 +44,7 @@
                 foreach ($order_name[$k] as $i) {
                     $payname = $i;
                     ?>
-                    <a href="controller/orderPay_update.php?action=update&payname=<?php echo $payname; ?>"><img
+                    <a href="controller/order_controller.php?action=pay&payname=<?php echo $payname; ?>"><img
                                 src="icon/th.jpeg" width="30" height="30"></a>
                 <?php } ?>
                 </td>

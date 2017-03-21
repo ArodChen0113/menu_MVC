@@ -19,6 +19,11 @@ if($_POST['action']=='insert'){
     $action=$_GET['action'];
     $c = new order_system;
     $c->order_delete($num, $action);
+}else if($_GET['action']=='pay') {
+    $name=$_GET['payname'];
+    $action=$_GET['action'];
+    $c = new order_system;
+    $c->order_pay($name, $action);
 }
 class order_system
 {
@@ -105,6 +110,20 @@ class order_system
             $db->update("menu_order","`price` = '$updateptice'","`name`='$name'");  //修改訂購總額
             $db->delete("menu_order","`num`='$num'");  //刪除訂購項目
             header("Location:../order_update_index.php?postname=$name");
+        }
+    }
+
+    public function order_pay($name,$action) //刪除訂購項目
+    {
+
+        if ($action != NULL && $action == 'pay') //判斷值是否由欄位輸入
+        {
+            require_once("../model/DB_config.php");
+            require_once("../model/DB_Class.php");
+            $db = new DB();
+            $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
+            $db->update("menu_order","`pay` = '1'","`name`='$name' AND `pay`!='9'");  //修改成已繳費
+            header("Location:../order_list_index.php");
         }
     }
 

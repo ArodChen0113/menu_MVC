@@ -11,8 +11,8 @@ class menu_sel_c{
     }
 
     public function menu_sel($restname){  //餐廳管理>菜單瀏覽
-        require_once("../model/DB_config.php");
-        require_once("../model/DB_Class.php");
+        require_once("model/DB_config.php");
+        require_once("model/DB_Class.php");
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
         $db->select("`m_num`,`kind`,`unit_price`,`menu_picture`","`menu`","`rest_name` = '$restname'");

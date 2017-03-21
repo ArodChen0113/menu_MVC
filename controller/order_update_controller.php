@@ -10,12 +10,12 @@ class order_update_select
     public function order_update($selectname)
 
     {
-        require_once("DB_config.php");
-        require_once("DB_Class.php");
+        require_once("model/DB_config.php");
+        require_once("model/DB_Class.php");
 
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-        $db->query("SELECT * FROM `menu_order`JOIN `menu` ON menu_order.kind = menu.kind WHERE`name`='$selectname' AND `pay`!='9'");
+        $db->select_all("`menu_order`JOIN `menu` ON menu_order.kind = menu.kind","`name`='$selectname' AND `pay`!='9'");
         $k=0;
         while($result = $db->fetch_array())
         {
@@ -32,7 +32,7 @@ class order_update_select
             $order_pic_echo[$i]=array($order_pic[$i]);
             $order_num_echo[$i]=array($order_num[$i]);
         }
-        $db->query("SELECT `price` FROM `menu_order` WHERE `name`='$selectname' AND `pay`!='9'");
+        $db->select("`price`","`menu_order`","`name`='$selectname' AND `pay`!='9'");
         while($result2 = $db->fetch_array())
         {
             $sum=$result2['price'];

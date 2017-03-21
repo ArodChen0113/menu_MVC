@@ -10,12 +10,12 @@ class order_overview_select
     public function order_overview()
 
     {
-        require_once("DB_config.php");
-        require_once("DB_Class.php");
+        require_once("model/DB_config.php");
+        require_once("model/DB_Class.php");
 
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-        $db->query("SELECT `name`,`price` FROM `menu_order` WHERE `pay`!='9' GROUP BY `name`");
+        $db->select("`name`,`price`","`menu_order`","`pay`!='9' GROUP BY `name`");
         $k=0;
         while($result = $db->fetch_array())
         {

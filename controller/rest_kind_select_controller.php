@@ -9,12 +9,11 @@ class order_kind_select{
     }
 
     public function order_k($select1,$rest1){
-        require_once("DB_config.php");
-        require_once("DB_Class.php");
-
+        require_once("../model/DB_config.php");
+        require_once("../model/DB_Class.php");
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-        $db->query("SELECT `rest_name` FROM `restaurant` WHERE `rest_kind`='$select1'");
+        $db->select("`rest_name`","`restaurant`","`rest_kind`='$select1'");
         $k=0;
         while($result = $db->fetch_array())
         {
@@ -27,8 +26,7 @@ class order_kind_select{
         }
         session_start();
         $_SESSION['rest_name']=$sel_restname;
-
-        $db->query("SELECT `rest_name` FROM `restaurant` WHERE `rest_kind`='$rest1'");
+        $db->select("`rest_name`","`restaurant`","`rest_kind`='$rest1'");
         $k=0;
         while($result2 = $db->fetch_array())
         {

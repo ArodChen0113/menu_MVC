@@ -1,4 +1,6 @@
 <?php
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
 include ("../class/restaurant_kind_index_view.php");
 
 if($_POST['action']=='insert'){
@@ -29,14 +31,11 @@ class rest_kind_system
 
     public function rest_kind_select() //搜尋餐廳分類
     {
-        require_once("DB_config.php");
-        require_once("DB_Class.php");
-
+        require_once("model/DB_config.php");
+        require_once("model/DB_Class.php");
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-
-
-        $db->query("SELECT `rest_kind`,`num` FROM `restaurant_kind`");
+        $db->select("`rest_kind`,`num`","`restaurant_kind`");
         $k=0;
         while($result = $db->fetch_array())
         {
@@ -57,12 +56,11 @@ class rest_kind_system
 
         if ($action != NULL && $action == 'insert')      //判斷值是否由欄位輸入
         {
-            require_once("DB_config.php");
-            require_once("DB_Class.php");
-
+            require_once("../model/DB_config.php");
+            require_once("../model/DB_Class.php");
             $db = new DB();
             $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-            $db->query("INSERT INTO restaurant_kind (`rest_kind`)VALUES('$rest_kind')");
+            $db->insert("restaurant_kind","`rest_kind`","'$rest_kind'");
             header("Location:../rest_kind_index.php");
 
         }
@@ -73,15 +71,14 @@ class rest_kind_system
 
         if ($action != NULL && $action == 'update')           //判斷值是否由欄位輸入
         {
-            require_once("DB_config.php");
-            require_once("DB_Class.php");
-
+            require_once("../model/DB_config.php");
+            require_once("../model/DB_Class.php");
             $db = new DB();
             $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
             $k=0;
             $count_kind=count($num);
             for($i=1;$i<=$count_kind;$i++){
-                $db->query("UPDATE restaurant_kind SET `rest_kind` = '$rest_kind[$k]' WHERE `num`='$num[$k]'");
+                $db->update("restaurant_kind","`rest_kind` = '$rest_kind[$k]'","`num`='$num[$k]'");
                 $k++;
             }
             header("Location:../rest_kind_index.php");
@@ -93,12 +90,11 @@ class rest_kind_system
 
         if ($action != NULL && $action == 'delete') //判斷值是否由欄位輸入
         {
-            require_once("DB_config.php");
-            require_once("DB_Class.php");
-
+            require_once("../model/DB_config.php");
+            require_once("../model/DB_Class.php");
             $db = new DB();
             $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-            $db->query("Delete from restaurant_kind WHERE `num`='$num'");
+            $db->delete("restaurant_kind","`num`='$num'");
             header("Location:../rest_kind_index.php");
         }
     }

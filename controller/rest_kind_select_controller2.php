@@ -10,13 +10,12 @@ class order_kind_select2{
     }
 
     public function order_k2($select1,$select2,$rest1,$rest2){
-        require_once("DB_config.php");
-        require_once("DB_Class.php");
+        require_once("../model/DB_config.php");
+        require_once("../model/DB_Class.php");
 
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
-        $db->query("SELECT `rest_name`,`rest_picture` FROM `restaurant` WHERE `rest_name`='$select2'");
-
+        $db->select("`rest_name`,`rest_picture`","`restaurant`","`rest_name`='$select2'");
         while($result = $db->fetch_array())
         {
             $sel_name=$result['rest_name'];

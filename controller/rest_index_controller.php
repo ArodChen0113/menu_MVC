@@ -10,7 +10,7 @@ class restaurant_kind_name_c
     }
     public function restaurant_kind()
     {
-        require_once("DB_config.php");
+        require_once("model/DB_config.php");
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);
         $db -> select_all('restaurant_kind','');

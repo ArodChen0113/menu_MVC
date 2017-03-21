@@ -1,5 +1,6 @@
 <?php
-
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
 include ("class/menu_sel_index_view.php");
 include ("controller/menu_sel_index_controller.php");
 if($_GET['restname']!=NULL){

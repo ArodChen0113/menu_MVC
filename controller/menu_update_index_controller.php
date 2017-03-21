@@ -10,8 +10,8 @@ class menu_up_c{
     }
 
     public function menu_up($num,$restname){
-        require_once("../model/DB_config.php");
-        require_once("../model/DB_Class.php");
+        require_once("model/DB_config.php");
+        require_once("model/DB_Class.php");
 
         $db = new DB();
         $db->connect_db($_DB['host'], $_DB['username'], $_DB['password'], $_DB['dbname']);

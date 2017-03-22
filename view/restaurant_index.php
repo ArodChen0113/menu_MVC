@@ -110,7 +110,7 @@ session_start();
         <?php
         $Rec_RestKind2=mysqli_query($db, "SELECT `rest_kind` FROM `restaurant_kind`");
         ?>
-        <td><select style="width:240px" name="restc1" onchange="window.location='controller/rest_kind_select_controller.php?rest1='+this.value">
+        <td><select style="width:240px" name="restc1" onchange="window.location='controller/rest_kind_controller.php?action=control1&rest1='+this.value">
                 <option value=""><?php
                     if($_GET['rest1']!=NULL){
                         echo $_GET['rest1'];
@@ -127,7 +127,7 @@ session_start();
                     }}
                 ?>
             </select></td>
-        <td><select style="width:240px" name="restc2" onchange="window.location='controller/rest_kind_select_controller2.php?rest1=<?php echo $_GET['rest1'];?>&rest2='+this.value">
+        <td><select style="width:240px" name="restc2" onchange="window.location='controller/rest_kind_controller.php?action=control2&rest1=<?php echo $_GET['rest1'];?>&rest2='+this.value">
                 <option value=""><?php
                     if($_GET['rest2']!=NULL){
                         echo $_GET['rest2'];
